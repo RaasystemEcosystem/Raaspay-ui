@@ -1,48 +1,26 @@
 // src/App.jsx
-import React, { useState } from 'react';
-import Dashboard from './Dashboard';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
-  const [walletAddress, setWalletAddress] = useState(null);
-  const [status, setStatus] = useState('');
+  const navigate = useNavigate();
 
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setWalletAddress(accounts[0]);
-        setStatus('Wallet connected');
-      } catch (error) {
-        console.error(error);
-        setStatus('Wallet connection failed');
-      }
-    } else {
-      setStatus('No wallet detected. Install MetaMask or XDC Pay.');
-    }
+  const handleNavigate = () => {
+    navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white p-6">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold">Rabex Wallet Dashboard</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Send and manage Raaskoin directly from the Rabex wallet
-        </p>
-        <div className="mt-4">
-          <button
-            onClick={connectWallet}
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg"
-          >
-            {walletAddress ? `Connected: ${walletAddress.slice(0, 6)}...` : 'Connect Wallet'}
-          </button>
-          {status && <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{status}</p>}
-        </div>
-      </header>
-
-      {/* Pass walletAddress and setStatus down to Dashboard */}
-      <Dashboard walletAddress={walletAddress} setStatus={setStatus} />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white p-6 flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-4">Welcome to Raaspay</h1>
+      <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+        Securely send and manage Raaskoin (RAK) via your decentralized wallet
+      </p>
+      <button
+        onClick={handleNavigate}
+        className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg"
+      >
+        Go to Dashboard
+      </button>
     </div>
   );
 }
